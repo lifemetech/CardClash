@@ -35,7 +35,7 @@ jobs:
           rm -f "Gradle Wrapper Properties File"
 
           mkdir clean-project
-          unzip -q CardClash-CLEANED.zip -d clean-project
+          unzip -q CardClash-STRATEGY-EDITION.zip -d clean-project
 
           cp -r clean-project/app .
           cp -r clean-project/gradle .
