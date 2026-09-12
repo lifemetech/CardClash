@@ -1,14 +1,13 @@
 name: Build APK
 
 on:
+  workflow_dispatch:
   push:
-    branches: ["main"]
-  pull_request:
     branches: ["main"]
 
 jobs:
   build:
-    name: Build Debug APK
+    name: Build Clean APK
     runs-on: ubuntu-latest
 
     steps:
@@ -20,6 +19,31 @@ jobs:
         with:
           distribution: "temurin"
           java-version: "17"
+
+      - name: Install unzip
+        run: sudo apt-get update && sudo apt-get install -y unzip
+
+      - name: Replace Project With Clean Version
+        run: |
+          rm -rf app
+          rm -rf gradle
+          rm -f build.gradle.kts
+          rm -f settings.gradle.kts
+          rm -f gradle.properties
+          rm -f gradlew
+          rm -f gradlew.bat
+          rm -f "Gradle Wrapper Properties File"
+
+          mkdir clean-project
+          unzip -q CardClash-CLEANED.zip -d clean-project
+
+          cp -r clean-project/app .
+          cp -r clean-project/gradle .
+          cp clean-project/build.gradle.kts .
+          cp clean-project/settings.gradle.kts .
+          cp clean-project/gradle.properties .
+
+          rm -rf clean-project
 
       - name: Set up Gradle 8.7
         uses: gradle/actions/setup-gradle@v4
